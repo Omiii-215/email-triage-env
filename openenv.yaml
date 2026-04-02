@@ -1,0 +1,72 @@
+# OpenEnv Environment Manifest
+name: email_triage_env
+version: "1.0.0"
+description: >
+  A real-world email triage simulation environment where an AI agent must
+  categorize, prioritize, route, and summarize incoming corporate emails.
+  Features 40+ realistic email templates, multi-component reward scoring
+  with partial credit, and 3 graded tasks (easy/medium/hard).
+
+author: zenx
+license: MIT
+
+# Environment metadata
+environment:
+  type: text
+  domain: email_triage
+  difficulty_range: easy-hard
+
+  action_space:
+    type: structured
+    fields:
+      - name: category
+        type: string
+        enum: [urgent, action_required, informational, spam, meeting]
+      - name: priority
+        type: integer
+        range: [1, 5]
+      - name: department
+        type: string
+        enum: [engineering, sales, hr, legal, support, executive, trash]
+      - name: summary
+        type: string
+
+  observation_space:
+    type: structured
+    fields:
+      - name: current_email
+        type: object
+        description: Email data with sender, subject, body, metadata
+      - name: emails_remaining
+        type: integer
+      - name: last_reward
+        type: float
+      - name: last_feedback
+        type: string
+
+# Tasks
+tasks:
+  - id: easy_triage
+    description: "Triage 5 clear-cut emails with obvious signals"
+    difficulty: easy
+    max_steps: 5
+
+  - id: medium_triage
+    description: "Triage 10 mixed emails with some ambiguous cases"
+    difficulty: medium
+    max_steps: 10
+
+  - id: hard_triage
+    description: "Triage 15 hard emails with reply chains, phishing, and competing signals"
+    difficulty: hard
+    max_steps: 15
+
+# Server config
+server:
+  port: 7860
+  endpoints:
+    health: /health
+    reset: /reset
+    step: /step
+    state: /state
+    tasks: /tasks
