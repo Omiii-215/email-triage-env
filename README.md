@@ -1,3 +1,13 @@
+---
+title: Email Triage Env
+emoji: 📧
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Email Triage Environment — OpenEnv
 
 A real-world **email triage simulation** built on the [OpenEnv](https://github.com/meta-pytorch/OpenEnv) framework. An AI agent receives emails and must **categorize**, **prioritize**, **route**, and **summarize** each one — just like a knowledge worker managing a corporate inbox.
