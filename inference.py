@@ -175,6 +175,7 @@ def run_task(client: OpenAI, env_client: httpx.Client, task_id: str) -> float:
     print(f"\n{'='*60}")
     print(f"  TASK: {task_id}")
     print(f"{'='*60}")
+    print(f"[START] task={task_id}", flush=True)
 
     # Reset
     resp = env_client.post("/reset", json={"task_id": task_id})
@@ -228,6 +229,7 @@ def run_task(client: OpenAI, env_client: httpx.Client, task_id: str) -> float:
             f"→ {action['category']}/{action['priority']}/{action['department']} "
             f"| reward={reward:.3f}"
         )
+        print(f"[STEP] step={step} reward={reward}", flush=True)
 
     # Get final state
     resp = env_client.get("/state")
@@ -236,6 +238,7 @@ def run_task(client: OpenAI, env_client: httpx.Client, task_id: str) -> float:
     final_score = state.get("current_score", 0.0)
 
     print(f"\n  Final score for {task_id}: {final_score:.3f}")
+    print(f"[END] task={task_id} score={final_score} steps={step}", flush=True)
     return final_score
 
 
